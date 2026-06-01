@@ -1,24 +1,22 @@
 const Progress = require("../models/progress");
 
 const addProgress = async (req, res) => {
-
   try {
-
-    const { user, problem } = req.body;
 
     const existingProgress =
       await Progress.findOne({
-        user,
-        problem
+        user: req.body.user,
+        problem: req.body.problem
       });
 
     if (existingProgress) {
       return res.status(400).json({
-        message: "Problem already marked as solved"
+        message: "Problem already solved"
       });
     }
 
-    const progress = await Progress.create(req.body);
+    const progress =
+      await Progress.create(req.body);
 
     res.status(201).json(progress);
 
@@ -29,7 +27,6 @@ const addProgress = async (req, res) => {
     });
 
   }
-
 };
 
 module.exports = {

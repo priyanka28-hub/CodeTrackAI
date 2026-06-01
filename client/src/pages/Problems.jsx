@@ -5,6 +5,8 @@ import Navbar from "../components/Navbar";
 function Problems() {
 
   const [problems, setProblems] = useState([]);
+  const [search, setSearch] = useState("");
+  const [difficultyFilter, setDifficultyFilter] = useState("All");
 
   const markSolved = async (problemId) => {
 
@@ -29,6 +31,34 @@ function Problems() {
     alert(
       error.response?.data?.message ||
       "Failed to mark problem"
+    );
+
+  }
+
+};
+
+const deleteProblem = async (problemId) => {
+
+  try {
+
+    await API.delete(
+      `/problems/${problemId}`
+    );
+
+    setProblems(
+      problems.filter(
+        (problem) =>
+          problem._id !== problemId
+      )
+    );
+
+    alert("Problem Deleted");
+
+  } catch (error) {
+
+    alert(
+      error.response?.data?.message ||
+      "Delete Failed"
     );
 
   }
@@ -66,9 +96,43 @@ function Problems() {
         📚 Problems
       </h1>
 
+      <input
+  type="text"
+  placeholder="Search problems..."
+  value={search}
+  onChange={(e) => setSearch(e.target.value)}
+  className="w-full p-3 mb-6 rounded-lg bg-slate-800 text-white border border-slate-700"
+/>
+   
+      <select
+  value={difficultyFilter}
+  onChange={(e) => setDifficultyFilter(e.target.value)}
+  className="w-full p-3 mb-6 rounded-lg bg-slate-800 text-white border border-slate-700"
+>
+  <option value="All">All Difficulties</option>
+  <option value="Easy">Easy</option>
+  <option value="Medium">Medium</option>
+  <option value="Hard">Hard</option>
+</select>
+
       <div className="grid gap-4">
 
-        {problems.map((problem) => (
+        {problems
+  .filter((problem) => {
+
+  const matchesSearch =
+    problem.title.toLowerCase().includes(search.toLowerCase()) ||
+    problem.platform.toLowerCase().includes(search.toLowerCase()) ||
+    problem.topic.toLowerCase().includes(search.toLowerCase());
+
+  const matchesDifficulty =
+    difficultyFilter === "All" ||
+    problem.difficulty === difficultyFilter;
+
+  return matchesSearch && matchesDifficulty;
+
+})
+  .map((problem) => (
 
   <div
     key={problem._id}
@@ -96,7 +160,16 @@ function Problems() {
       className="mt-3 bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg"
     >
       Mark as Solved
-    </button>
+    </button> 
+
+    <button
+  onClick={() =>
+    deleteProblem(problem._id)
+  }
+  className="mt-3 ml-3 bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg"
+>
+  Delete
+</button>
 
   </div>
 

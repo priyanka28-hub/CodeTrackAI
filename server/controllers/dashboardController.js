@@ -21,18 +21,20 @@ const getDashboard = async (req, res) => {
 
     solvedProblems.forEach((item) => {
 
-  if(item.problem.difficulty === "Easy")
+  if (!item.problem) return;
+
+  if (item.problem.difficulty === "Easy")
     easySolved++;
 
-  else if(item.problem.difficulty === "Medium")
+  else if (item.problem.difficulty === "Medium")
     mediumSolved++;
 
-  else if(item.problem.difficulty === "Hard")
+  else if (item.problem.difficulty === "Hard")
     hardSolved++;
 
   const topic = item.problem.topic;
 
-  if(topicStats[topic]){
+  if (topicStats[topic]) {
     topicStats[topic]++;
   } else {
     topicStats[topic] = 1;

@@ -4,11 +4,14 @@ const router = express.Router();
 
 const {
   addProblem,
-  getProblems
+  getProblems,
+  deleteProblem
 } = require("../controllers/problemController");
 
 router.post("/", addProblem);
 
 router.get("/", getProblems);
+
+router.delete("/:id", deleteProblem);
 
 module.exports = router;

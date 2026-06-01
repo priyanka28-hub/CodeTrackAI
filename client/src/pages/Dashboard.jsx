@@ -73,9 +73,14 @@ const res = await API.get(
 
       } catch (error) {
 
-        console.log(error);
+  console.log(
+    "Dashboard Error:",
+    error.response?.data
+  );
 
-      }
+  console.log(error);
+
+}
 
     };
 
