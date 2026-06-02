@@ -24,7 +24,11 @@ function Problems() {
 
     alert("Problem Marked as Solved");
 
-    window.location.href = "/dashboard";
+    import { useNavigate } from "react-router-dom";
+
+const navigate = useNavigate();
+
+navigate("/dashboard");
 
   } catch (error) {
 
