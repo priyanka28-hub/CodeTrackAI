@@ -1,5 +1,5 @@
-const Progress = require("../models/progress");
-const Problem = require("../models/problem");
+const Progress = require("../models/Progress");
+const Problem = require("../models/Problem");
 
 const getDashboard = async (req, res) => {
   try {
