@@ -5,6 +5,8 @@ const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 
 dotenv.config();
+console.log("JWT_SECRET exists:", !!process.env.JWT_SECRET);
+console.log("MONGO_URI exists:", !!process.env.MONGO_URI);
 
 connectDB();
 
